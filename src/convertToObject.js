@@ -44,21 +44,21 @@ const complexStylesString = `
 `;
 
 function convertToObject(sourceString) {
-  // write your code here
+  return sourceString
+    .split(';') // Розділяємо рядок на окремі CSS-властивості
+    .filter((style) => style.trim() !== '') // Видаляємо порожні рядки
+    .reduce((accum, style) => {
+      const parts = style.split(':'); // Розділяємо ключ і значення
 
-  const obj = {};
+      if (parts.length === 2) {
+        const key = parts[0].trim(); // Видаляємо пробіли у ключа
+        const value = parts[1].trim(); // Видаляємо пробіли у значення
 
-  const str = sourceString.split(';');
+        accum[key] = value; // Додаємо в об'єкт
+      }
 
-  for (let i = 0; i < str.length; i++) {
-    const firstPart = str[i].split(':');
-
-    if (firstPart.length === 2) {
-      obj[firstPart[0].trim()] = firstPart[1].trim();
-    }
-  }
-
-  return obj;
+      return accum; // Повертаємо оновлений об'єкт
+    }, {}); // Початкове значення – порожній об'єкт
 }
 convertToObject(complexStylesString);
 module.exports = convertToObject;
